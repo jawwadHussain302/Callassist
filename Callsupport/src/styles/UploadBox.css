@@ -1,0 +1,84 @@
+.upload-box {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    display: block;
+    font-size: 1.2rem;
+    color: #007bff;
+    cursor: pointer;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-hint {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.file-info {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.file-info p {
+    margin: 0.5rem 0;
+    color: #495057;
+}
+
+.transcribe-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.transcribe-button:hover {
+    background-color: #218838;
+}
+
+.transcribe-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #dc3545;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    text-align: center;
+}

@@ -1,0 +1,122 @@
+.sentiment-analysis {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sentiment-analysis h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+.sentiment-result {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sentiment-label {
+    font-size: 1.3em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sentiment-emoji {
+    font-size: 1.5em;
+}
+
+.sentiment-text {
+    flex-grow: 1;
+}
+
+.confidence-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.confidence-level {
+    font-size: 0.8em;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.confidence-score {
+    font-size: 0.7em;
+    opacity: 0.7;
+}
+
+.highlighted-phrases {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.highlighted-phrases h4 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.highlighted-phrases ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.highlighted-phrases li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.highlighted-phrases li:last-child {
+    border-bottom: none;
+}
+
+.phrase-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.phrase-emoji {
+    font-size: 1.2em;
+}
+
+.phrase-text {
+    line-height: 1.4;
+}
+
+.phrase-metrics {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 120px;
+}
+
+.phrase-sentiment {
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.phrase-score {
+    font-size: 0.7em;
+    opacity: 0.7;
+}

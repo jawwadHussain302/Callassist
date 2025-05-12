@@ -1,0 +1,159 @@
+.export-section {
+    margin: 20px;
+}
+
+.export-buttons,
+.preview-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.export-button,
+.preview-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-button:hover,
+.preview-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.export-button:active,
+.preview-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-button.text {
+    background-color: #3498db;
+    color: white;
+}
+
+.export-button.text:hover {
+    background-color: #2980b9;
+}
+
+.export-button.json {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.export-button.json:hover {
+    background-color: #27ae60;
+}
+
+.export-button.markdown {
+    background-color: #9b59b6;
+    color: white;
+}
+
+.export-button.markdown:hover {
+    background-color: #8e44ad;
+}
+
+.export-button.html {
+    background-color: #e67e22;
+    color: white;
+}
+
+.export-button.html:hover {
+    background-color: #d35400;
+}
+
+.preview-button {
+    background-color: #34495e;
+    color: white;
+}
+
+.preview-button:hover {
+    background-color: #2c3e50;
+}
+
+.error-message {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.preview-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.preview-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.preview-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.preview-body pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #2c3e50;
+}
