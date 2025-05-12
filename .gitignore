@@ -45,4 +45,7 @@ whisper_src/build/
 audio_uploads/
 *.log
 *.txt
-*.json 
+*.json
+*.exe
+*.zip
+.env 
