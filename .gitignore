@@ -37,15 +37,24 @@ src-tauri/target/
 # Large model files
 **/whisper/models/ggml-base.bin
 **/binaries/whisper/models/ggml-base.bin
+**/whisper/models/ggml-base.en.bin
 
 # Additional exclusions
 whisper_src/
 whisper.cpp/
 whisper_src/build/
 audio_uploads/
+!audio_uploads/sample.wav
+!audio_uploads/sample.wav.txt
 *.log
 *.txt
-*.json
-*.exe
-*.zip
-.env 
+# *.json  # Commented out to track config json files
+!tsconfig.json
+!tsconfig.node.json
+!package.json
+# *.exe  # Commented out to track whisper.exe
+!whisper/whisper.exe  # Explicitly include whisper.exe
+# *.zip  # Commented out to track submission zip
+!submission/callassist_submission.zip
+!submission/sample.wav.txt
+.env        
