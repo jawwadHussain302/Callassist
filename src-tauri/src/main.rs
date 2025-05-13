@@ -87,8 +87,10 @@ fn transcribe_audio(file_path: Option<String>, filename: Option<String>) -> Resu
         return Err(format!("Whisper executable not found at: {:?}", whisper_path));
     }
     
-    // Get the model path relative to the current directory
-    let model_path = current_dir.join("whisper/models/ggml-base.en.bin");
+    // Get the model path relative to the project root directory
+    let model_path = project_root.join("whisper/models/ggml-base.en.bin");
+    
+    println!("Model path: {:?}", model_path);
     
     // Check if model exists
     if !model_path.exists() {
