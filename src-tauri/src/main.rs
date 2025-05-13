@@ -74,7 +74,7 @@ fn transcribe_audio(file_path: Option<String>, filename: Option<String>) -> Resu
     println!("Project root directory: {:?}", project_root);
     
     let whisper_exe = if cfg!(target_os = "windows") {
-        "whisper/whisper.exe"
+        "whisper/whisper.bat"
     } else {
         "whisper/whisper"
     };
