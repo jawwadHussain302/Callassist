@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { writeBinaryFile, createDir } from '@tauri-apps/api/fs';
-import { appDataDir } from '@tauri-apps/api/path';
+import { appDataDir, join } from '@tauri-apps/api/path';
 
 interface UploadBoxProps {
     onTranscribe: (filename: string) => Promise<void>;
@@ -70,15 +70,21 @@ const UploadBox: React.FC<UploadBoxProps> = ({
         try {
             // Get the app's data directory
             const appDataDirPath = await appDataDir();
-            console.log('App data directory:', appDataDirPath);
+            console.log('App data directory (full path):', appDataDirPath);
 
-            // Create audio_uploads directory in the app's data directory
-            const uploadDir = `${appDataDirPath}/audio_uploads`;
+            // Create audio_uploads directory in the app's data directory - use path join for platform compatibility
+            const uploadDir = await join(appDataDirPath, 'audio_uploads');
+            console.log('Upload directory (full path):', uploadDir);
+            
             try {
                 await createDir(uploadDir, { recursive: true });
-                console.log('Created audio_uploads directory at:', uploadDir);
+                console.log('Created audio_uploads directory successfully at:', uploadDir);
             } catch (dirError) {
-                console.error('Error creating directory:', dirError);
+                console.error('DETAILED Error creating directory:', {
+                    error: dirError,
+                    uploadDir: uploadDir,
+                    appDataDirPath: appDataDirPath
+                });
                 // Continue anyway as the directory might already exist
             }
 
@@ -86,14 +92,25 @@ const UploadBox: React.FC<UploadBoxProps> = ({
             const arrayBuffer = await file.arrayBuffer();
             const uint8Array = new Uint8Array(arrayBuffer);
 
-            // Write file to audio_uploads directory
+            // Write file to audio_uploads directory using path.join for platform compatibility
             try {
-                const uploadPath = `${uploadDir}/${file.name}`;
+                const uploadPath = await join(uploadDir, file.name);
+                console.log('Saving file to:', uploadPath);
+                console.log('File size:', uint8Array.length, 'bytes');
+                
                 await writeBinaryFile(uploadPath, uint8Array);
-                console.log('File uploaded successfully to:', uploadPath);
+                console.log('DETAILED: File uploaded successfully to:', {
+                    path: uploadPath,
+                    size: uint8Array.length,
+                    filename: file.name
+                });
             } catch (writeError) {
-                console.error('Error writing file:', writeError);
-                setError(`Failed to write file: ${writeError}`);
+                console.error('DETAILED Error writing file:', {
+                    error: writeError,
+                    uploadDir: uploadDir,
+                    fileName: file.name
+                });
+                setError(`Failed to write file: ${JSON.stringify(writeError)}`);
                 setFileName('');
                 setDuration('');
                 return;
@@ -125,6 +142,7 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     const handleTranscribe = async () => {
         if (!fileName) return;
         try {
+            console.log('Starting transcription for file:', fileName);
             await onTranscribe(fileName);
         } catch (err) {
             setError('Transcription failed');
@@ -167,4 +185,4 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     );
 };
 
-export default UploadBox;      
+export default UploadBox;        
