@@ -63,9 +63,15 @@ fn transcribe_audio(file_path: Option<String>, filename: Option<String>) -> Resu
         return Err(format!("Audio file not found: {:?}", audio_file_path));
     }
     
-    // Get the whisper executable path relative to the current directory
+    // Get the whisper executable path relative to the project root directory
     let current_dir = std::env::current_dir()
         .map_err(|e| format!("Failed to get current directory: {}", e))?;
+    
+    let project_root = current_dir.parent()
+        .ok_or_else(|| "Failed to get parent directory".to_string())?;
+    
+    println!("Current directory: {:?}", current_dir);
+    println!("Project root directory: {:?}", project_root);
     
     let whisper_exe = if cfg!(target_os = "windows") {
         "whisper/whisper.exe"
@@ -73,7 +79,8 @@ fn transcribe_audio(file_path: Option<String>, filename: Option<String>) -> Resu
         "whisper/whisper"
     };
     
-    let whisper_path = current_dir.join(whisper_exe);
+    // Construct the whisper path relative to the project root
+    let whisper_path = project_root.join(whisper_exe);
     
     // Check if whisper executable exists
     if !whisper_path.exists() {
