@@ -55,32 +55,37 @@ fn transcribe_audio(filename: String) -> Result<String, String> {
         return Err(format!("Model file not found at: {:?}", model_path));
     }
     
-    // Run whisper command with explicit output directory
+    // Run whisper command with correct arguments for the batch file
+    println!("Executing whisper with arguments: {:?} {:?}", &audio_file_path, &output_file_path);
     let output = Command::new(&whisper_path)
-        .arg("-m")
-        .arg(&model_path)
-        .arg("-f")
         .arg(&audio_file_path)
-        .arg("-o")
-        .arg(&audio_uploads_dir)
+        .arg(&output_file_path)
         .output()
         .map_err(|e| format!("Failed to execute whisper: {}", e))?;
     
     if !output.status.success() {
-        let error = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("Whisper execution failed: {}", error));
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        println!("Whisper stdout: {}", stdout);
+        println!("Whisper stderr: {}", stderr);
+        return Err(format!("Whisper execution failed: {}", stderr));
     }
     
-    // Read the output file
-    match fs::read_to_string(&output_file_path) {
-        Ok(transcript) => {
-            println!("Transcription successful");
-            Ok(transcript)
-        },
-        Err(e) => {
-            Err(format!("Failed to read transcript file: {}", e))
-        }
+    println!("Whisper execution successful");
+    println!("Output file path: {:?}", output_file_path);
+    println!("Command output: {}", String::from_utf8_lossy(&output.stdout));
+    
+    // Check if the output file exists
+    if !output_file_path.exists() {
+        return Err(format!("Output file not found: {:?}", output_file_path));
     }
+    
+    // Read the contents of the output file
+    let transcript = fs::read_to_string(&output_file_path)
+        .map_err(|e| format!("Failed to read output file: {}", e))?;
+    
+    println!("Transcript: {}", transcript);
+    Ok(transcript)
 }
 
 fn main() {
