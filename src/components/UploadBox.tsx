@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { writeBinaryFile, createDir } from '@tauri-apps/api/fs';
-import { appDir } from '@tauri-apps/api/path';
+import { appDataDir } from '@tauri-apps/api/path';
 
 interface UploadBoxProps {
     onTranscribe: (filename: string) => Promise<void>;
@@ -69,11 +69,11 @@ const UploadBox: React.FC<UploadBoxProps> = ({
 
         try {
             // Get the app's data directory
-            const appDataDir = await appDir();
+            const appDataDir = await appDataDir();
             console.log('App data directory:', appDataDir);
 
             // Create audio_uploads directory in the app's data directory
-            const uploadDir = `${appDataDir}audio_uploads`;
+            const uploadDir = `${appDataDir}/audio_uploads`;
             try {
                 await createDir(uploadDir, { recursive: true });
                 console.log('Created audio_uploads directory at:', uploadDir);
@@ -167,4 +167,4 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     );
 };
 
-export default UploadBox; 
+export default UploadBox;    

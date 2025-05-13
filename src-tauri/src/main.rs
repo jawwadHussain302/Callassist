@@ -7,10 +7,13 @@ use tauri::command;
 fn transcribe_audio(filename: String) -> Result<String, String> {
     println!("Transcribing audio file: {}", filename);
     
-    // Get the app data directory
+    // Get the app data directory with app identifier
     let app_data_dir = tauri::api::path::app_data_dir(&tauri::Config::default())
         .ok_or_else(|| "Failed to get app data directory".to_string())?;
     
+    println!("App data directory: {:?}", app_data_dir);
+    
+    // Create audio_uploads directory in the app data directory
     let audio_uploads_dir = app_data_dir.join("audio_uploads");
     if !audio_uploads_dir.exists() {
         fs::create_dir_all(&audio_uploads_dir)
@@ -21,6 +24,21 @@ fn transcribe_audio(filename: String) -> Result<String, String> {
     // Construct paths using platform-appropriate separators
     let audio_file_path = audio_uploads_dir.join(&filename);
     let output_file_path = audio_file_path.with_extension("wav.txt");
+    
+    if !audio_file_path.exists() {
+        println!("Audio file not found at expected path: {:?}", audio_file_path);
+        
+        let legacy_app_dir = app_data_dir.parent().ok_or_else(|| "Failed to get parent directory".to_string())?;
+        let legacy_uploads_dir = legacy_app_dir.join("audio_uploads");
+        let legacy_file_path = legacy_uploads_dir.join(&filename);
+        
+        println!("Checking legacy path: {:?}", legacy_file_path);
+        
+        if legacy_file_path.exists() {
+            println!("Found audio file at legacy path: {:?}", legacy_file_path);
+            return Err(format!("File found at incorrect path: {:?}. Please upload the file again using the updated app.", legacy_file_path));
+        }
+    }
     
     println!("Audio file path: {:?}", audio_file_path);
     println!("Output file path: {:?}", output_file_path);
