@@ -99,18 +99,39 @@ fn transcribe_audio(file_path: Option<String>, filename: Option<String>) -> Resu
     
     // Run whisper command with correct arguments for the batch file
     println!("Executing whisper with arguments: {:?} {:?}", &audio_file_path, &output_file_path);
+    
+    // Create a detailed log of the execution
+    println!("Whisper path: {:?}", &whisper_path);
+    println!("Audio file path: {:?}", &audio_file_path);
+    println!("Output file path: {:?}", &output_file_path);
+    println!("Model path: {:?}", &model_path);
+    
     let output = Command::new(&whisper_path)
         .arg(&audio_file_path)
         .arg(&output_file_path)
         .output()
         .map_err(|e| format!("Failed to execute whisper: {}", e))?;
     
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    
+    println!("Whisper command exit code: {}", output.status);
+    println!("Whisper stdout: {}", stdout);
+    println!("Whisper stderr: {}", stderr);
+    
     if !output.status.success() {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        println!("Whisper stdout: {}", stdout);
-        println!("Whisper stderr: {}", stderr);
-        return Err(format!("Whisper execution failed: {}", stderr));
+        let error_message = if stderr.trim().is_empty() {
+            if stdout.trim().is_empty() {
+                format!("Whisper execution failed with exit code: {}", output.status)
+            } else {
+                format!("Whisper execution failed: {}", stdout)
+            }
+        } else {
+            format!("Whisper execution failed: {}", stderr)
+        };
+        
+        println!("Error message: {}", error_message);
+        return Err(error_message);
     }
     
     println!("Whisper execution successful");
