@@ -26,7 +26,8 @@
         "readFile": true,
         "writeFile": true,
         "readDir": true,
-        "createDir": true
+        "createDir": true,
+        "scope": ["$APPDATA/audio_uploads/*", "$APPDATA/*"]
       },
       "path": {
         "all": true
