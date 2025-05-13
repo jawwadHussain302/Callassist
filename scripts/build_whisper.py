@@ -27,9 +27,13 @@ def main():
     models_dir = whisper_dir / "models"
     os.makedirs(models_dir, exist_ok=True)
     
-    print("Creating Windows executable wrapper...")
+    win_exe_path = whisper_dir / "whisper.exe"
     
-    win_batch_content = """@echo off
+    # Only create Windows executable if it doesn't exist
+    if not win_exe_path.exists():
+        print("Creating Windows executable wrapper...")
+        
+        win_batch_content = """@echo off
 setlocal enabledelayedexpansion
 
 REM Get the directory of this batch file
@@ -74,14 +78,15 @@ echo Output saved to: %OUTPUT_FILE%
 
 exit /b 0
 """
-    
-    win_exe_path = whisper_dir / "whisper.exe"
-    with open(win_exe_path, 'w', newline='\r\n') as f:
-        f.write(win_batch_content)
-    
-    os.chmod(win_exe_path, 0o755)
-    
-    print(f"Windows batch file created at {win_exe_path}")
+        
+        with open(win_exe_path, 'w', newline='\r\n') as f:
+            f.write(win_batch_content)
+        
+        os.chmod(win_exe_path, 0o755)
+        
+        print(f"Windows batch file created at {win_exe_path}")
+    else:
+        print(f"Windows executable already exists at {win_exe_path}, skipping creation")
     
     # Download the model if it doesn't exist
     model_path = models_dir / "ggml-base.en.bin"
