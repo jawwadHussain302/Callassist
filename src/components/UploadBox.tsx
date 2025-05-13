@@ -69,11 +69,11 @@ const UploadBox: React.FC<UploadBoxProps> = ({
 
         try {
             // Get the app's data directory
-            const appDataDir = await appDataDir();
-            console.log('App data directory:', appDataDir);
+            const appDataDirPath = await appDataDir();
+            console.log('App data directory:', appDataDirPath);
 
             // Create audio_uploads directory in the app's data directory
-            const uploadDir = `${appDataDir}/audio_uploads`;
+            const uploadDir = `${appDataDirPath}/audio_uploads`;
             try {
                 await createDir(uploadDir, { recursive: true });
                 console.log('Created audio_uploads directory at:', uploadDir);
@@ -167,4 +167,4 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     );
 };
 
-export default UploadBox;    
+export default UploadBox;      
